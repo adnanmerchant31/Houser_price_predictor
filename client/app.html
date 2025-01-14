@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bangalore Home Price Prediction</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+                        url('https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .title {
+            color: #1a1a1a;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #4a5568;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #4299e1;
+            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.2);
+        }
+
+        .switch-field {
+            display: flex;
+            gap: 8px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .switch-field input {
+            display: none;
+        }
+
+        .switch-field label {
+            background: #e2e8f0;
+            color: #4a5568;
+            padding: 0.5rem 1rem;
+            text-align: center;
+            cursor: pointer;
+            flex: 1;
+            transition: all 0.2s;
+            border-radius: 6px;
+            font-weight: 500;
+        }
+
+        .switch-field input:checked + label {
+            background: #4299e1;
+            color: white;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 0.75rem;
+            background: #4299e1;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .submit-btn:hover {
+            background: #3182ce;
+        }
+
+        .result {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: #ebf8ff;
+            border-radius: 8px;
+            text-align: center;
+            display: none;
+        }
+
+        .result.show {
+            display: block;
+        }
+
+        .result h2 {
+            color: #2c5282;
+            font-size: 1.5rem;
+        }
+
+        select.form-control {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%234a5568' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0.5rem center;
+            background-size: 1.5em;
+            padding-right: 2.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">Bangalore Home Price Predictor</h1>
+        
+        <div class="form-group">
+            <label class="form-label">Area (Square Feet)</label>
+            <input type="number" id="uiSqft" class="form-control" value="1000" min="100">
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">BHK</label>
+            <div class="switch-field">
+                <input type="radio" id="radio-bhk-1" name="uiBHK" value="1">
+                <label for="radio-bhk-1">1</label>
+                <input type="radio" id="radio-bhk-2" name="uiBHK" value="2" checked>
+                <label for="radio-bhk-2">2</label>
+                <input type="radio" id="radio-bhk-3" name="uiBHK" value="3">
+                <label for="radio-bhk-3">3</label>
+                <input type="radio" id="radio-bhk-4" name="uiBHK" value="4">
+                <label for="radio-bhk-4">4</label>
+                <input type="radio" id="radio-bhk-5" name="uiBHK" value="5">
+                <label for="radio-bhk-5">5</label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Bathrooms</label>
+            <div class="switch-field">
+                <input type="radio" id="radio-bath-1" name="uiBathrooms" value="1">
+                <label for="radio-bath-1">1</label>
+                <input type="radio" id="radio-bath-2" name="uiBathrooms" value="2" checked>
+                <label for="radio-bath-2">2</label>
+                <input type="radio" id="radio-bath-3" name="uiBathrooms" value="3">
+                <label for="radio-bath-3">3</label>
+                <input type="radio" id="radio-bath-4" name="uiBathrooms" value="4">
+                <label for="radio-bath-4">4</label>
+                <input type="radio" id="radio-bath-5" name="uiBathrooms" value="5">
+                <label for="radio-bath-5">5</label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Location</label>
+            <select id="uiLocations" class="form-control">
+                <option value="" disabled selected>Choose a Location</option>
+            </select>
+        </div>
+
+        <button class="submit-btn" onclick="onClickedEstimatePrice()">
+            Estimate Price
+        </button>
+
+        <div id="uiEstimatedPrice" class="result"></div>
+    </div>
+
+    <script>
+        function getBathValue() {
+            var uiBathrooms = document.getElementsByName("uiBathrooms");
+            for(var i in uiBathrooms) {
+                if(uiBathrooms[i].checked) {
+                    return parseInt(i)+1;
+                }
+            }
+            return -1;
+        }
+
+        function getBHKValue() {
+            var uiBHK = document.getElementsByName("uiBHK");
+            for(var i in uiBHK) {
+                if(uiBHK[i].checked) {
+                    return parseInt(i)+1;
+                }
+            }
+            return -1;
+        }
+
+        function onClickedEstimatePrice() {
+            console.log("Estimate price button clicked");
+            var sqft = document.getElementById("uiSqft");
+            var bhk = getBHKValue();
+            var bathrooms = getBathValue();
+            var location = document.getElementById("uiLocations");
+            var estPrice = document.getElementById("uiEstimatedPrice");
+
+            var url = "http://127.0.0.1:5000/predict_home_price";
+
+            $.post(url, {
+                total_sqft: parseFloat(sqft.value),
+                bhk: bhk,
+                bath: bathrooms,
+                location: location.value
+            }, function(data, status) {
+                console.log(data.estimated_price);
+                estPrice.innerHTML = "<h2>₹ " + data.estimated_price.toString() + " Lakh</h2>";
+                estPrice.classList.add('show');
+            });
+        }
+
+        function onPageLoad() {
+            console.log("document loaded");
+            var url = "http://127.0.0.1:5000/get_location_names";
+            $.get(url, function(data, status) {
+                console.log("got response for get_location_names request");
+                if(data) {
+                    var locations = data.locations;
+                    var uiLocations = document.getElementById("uiLocations");
+                    $('#uiLocations').empty();
+                    for(var i in locations) {
+                        var opt = new Option(locations[i]);
+                        $('#uiLocations').append(opt);
+                    }
+                }
+            });
+        }
+
+        window.onload = onPageLoad;
+    </script>
+</body>
+</html>
